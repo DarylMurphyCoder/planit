@@ -15,20 +15,21 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path
 from django.contrib.auth import views as auth_views
-from django.shortcuts import redirect
 from accounts.views import signup
-
-def home_redirect(request):
-    if request.user.is_authenticated:
-        return redirect('task-list')
-    return redirect('login')
+from tasks.views import (
+    task_list, task_detail, task_create, task_update, task_delete, task_toggle
+)
 
 urlpatterns = [
-    path('', home_redirect),
+    path('', task_list, name='task-list'),
     path('admin/', admin.site.urls),
-    path('', include('tasks.urls')),
+    path('tasks/<int:pk>/', task_detail, name='task-detail'),
+    path('tasks/create/', task_create, name='task-create'),
+    path('tasks/<int:pk>/edit/', task_update, name='task-update'),
+    path('tasks/<int:pk>/delete/', task_delete, name='task-delete'),
+    path('tasks/<int:pk>/toggle/', task_toggle, name='task-toggle'),
     
     # Authentication URLs
     path(
