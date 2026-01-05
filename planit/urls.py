@@ -24,7 +24,6 @@ urlpatterns = [
     path('', lambda request: redirect('task-list')),
     path('admin/', admin.site.urls),
     path('', include('tasks.urls')),
-    path('api-auth/', include('rest_framework.urls')),
     
     # Authentication URLs
     path('login/', auth_views.LoginView.as_view(template_name='accounts/login.html'), name='login'),
