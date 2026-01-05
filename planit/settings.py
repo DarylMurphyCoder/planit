@@ -154,14 +154,13 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Login settings
-LOGIN_URL = 'login'
-LOGIN_REDIRECT_URL = 'task-list'
-LOGOUT_REDIRECT_URL = 'login'
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/login/'
 
 # Security settings for production
-SECURE_SSL_REDIRECT = config(
-    'SECURE_SSL_REDIRECT', default=False, cast=bool
-)
+# Temporarily disabled to debug redirect loop
+SECURE_SSL_REDIRECT = False
 SESSION_COOKIE_SECURE = config(
     'SESSION_COOKIE_SECURE', default=False, cast=bool
 )
