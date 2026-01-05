@@ -27,7 +27,7 @@ SECRET_KEY = config('SECRET_KEY', default='django-insecure-#z^-yu*hdn6b$)&3l=wx2
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=True, cast=bool)
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1,planit-darylmurphy-28311798355d.herokuapp.com', cast=lambda v: [s.strip() for s in v.split(',')])
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1,planit-darylmurphy-28311798355d.herokuapp.com,planit-app-97447bd04c43.herokuapp.com', cast=lambda v: [s.strip() for s in v.split(',')])
 
 
 # Application definition
