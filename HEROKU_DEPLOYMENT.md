@@ -37,7 +37,7 @@ The `DATABASE_URL` will be automatically set as an environment variable.
 ```bash
 heroku config:set DEBUG=False
 heroku config:set SECRET_KEY=$(python -c 'import secrets; print(secrets.token_urlsafe(50))')
-heroku config:set ALLOWED_HOSTS=planit-yourname.herokuapp.com
+heroku config:set ALLOWED_HOSTS=planit-darylmurphy.herokuapp.com
 heroku config:set SECURE_SSL_REDIRECT=True
 heroku config:set SESSION_COOKIE_SECURE=True
 heroku config:set CSRF_COOKIE_SECURE=True
