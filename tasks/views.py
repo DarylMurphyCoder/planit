@@ -34,8 +34,12 @@ def task_list(request):
     
     # Calculate stats
     total_tasks = Task.objects.filter(user=request.user).count()
-    pending_tasks = Task.objects.filter(user=request.user, is_completed=False).count()
-    completed_tasks = Task.objects.filter(user=request.user, is_completed=True).count()
+    pending_tasks = Task.objects.filter(
+        user=request.user, is_completed=False
+    ).count()
+    completed_tasks = Task.objects.filter(
+        user=request.user, is_completed=True
+    ).count()
     
     context = {
         'tasks': tasks.order_by('-created_at'),
