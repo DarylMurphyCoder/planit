@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block title %}Sign Up - PlanIt!{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <div class="card">
+            <div class="card-header bg-primary text-white text-center">
+                <h4 class="mb-0"><i class="bi bi-person-plus"></i> Create Account</h4>
+            </div>
+            <div class="card-body p-4">
+                {% if form.errors %}
+                    <div class="alert alert-danger">
+                        <strong>Error!</strong> Please correct the errors below.
+                        <ul class="mb-0">
+                            {% for field, errors in form.errors.items %}
+                                {% for error in errors %}
+                                    <li>{{ field }}: {{ error }}</li>
+                                {% endfor %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    <div class="mb-3">
+                        <label for="id_username" class="form-label fw-bold">Username</label>
+                        <input type="text" name="username" class="form-control" id="id_username" 
+                               placeholder="Choose a username" required autofocus>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="id_email" class="form-label fw-bold">Email</label>
+                        <input type="email" name="email" class="form-control" id="id_email" 
+                               placeholder="Enter your email" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="id_password1" class="form-label fw-bold">Password</label>
+                        <input type="password" name="password1" class="form-control" id="id_password1" 
+                               placeholder="Create a password" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="id_password2" class="form-label fw-bold">Confirm Password</label>
+                        <input type="password" name="password2" class="form-control" id="id_password2" 
+                               placeholder="Confirm your password" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100 mb-3">
+                        <i class="bi bi-person-plus"></i> Create Account
+                    </button>
+                </form>
+
+                <div class="text-center mt-3">
+                    <p class="text-muted">Already have an account? <a href="{% url 'login' %}">Login</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

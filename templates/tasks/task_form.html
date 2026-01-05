@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ form_title }} - PlanIt!{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">
+                    <i class="bi bi-{% if task %}pencil{% else %}plus-circle{% endif %}"></i>
+                    {{ form_title }}
+                </h4>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    <!-- Title -->
+                    <div class="mb-3">
+                        <label for="id_title" class="form-label fw-bold">Title *</label>
+                        <input type="text" name="title" class="form-control" id="id_title" 
+                               value="{{ form.title.value|default:'' }}" required>
+                        {% if form.title.errors %}
+                            <div class="text-danger">{{ form.title.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Description -->
+                    <div class="mb-3">
+                        <label for="id_description" class="form-label fw-bold">Description</label>
+                        <textarea name="description" class="form-control" id="id_description" 
+                                  rows="4">{{ form.description.value|default:'' }}</textarea>
+                        {% if form.description.errors %}
+                            <div class="text-danger">{{ form.description.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Priority -->
+                    <div class="mb-3">
+                        <label for="id_priority" class="form-label fw-bold">Priority</label>
+                        <select name="priority" class="form-select" id="id_priority">
+                            <option value="low" {% if form.priority.value == 'low' %}selected{% endif %}>Low</option>
+                            <option value="medium" {% if form.priority.value == 'medium' or not form.priority.value %}selected{% endif %}>Medium</option>
+                            <option value="high" {% if form.priority.value == 'high' %}selected{% endif %}>High</option>
+                        </select>
+                        {% if form.priority.errors %}
+                            <div class="text-danger">{{ form.priority.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Due Date -->
+                    <div class="mb-3">
+                        <label for="id_due_date" class="form-label fw-bold">Due Date</label>
+                        <input type="date" name="due_date" class="form-control" id="id_due_date" 
+                               value="{{ form.due_date.value|date:'Y-m-d'|default:'' }}">
+                        {% if form.due_date.errors %}
+                            <div class="text-danger">{{ form.due_date.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Category -->
+                    <div class="mb-3">
+                        <label for="id_category" class="form-label fw-bold">Category</label>
+                        <select name="category" class="form-select" id="id_category">
+                            <option value="">-- No Category --</option>
+                            {% for category in categories %}
+                                <option value="{{ category.id }}" 
+                                        {% if form.category.value == category.id %}selected{% endif %}>
+                                    {{ category.name }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                        {% if form.category.errors %}
+                            <div class="text-danger">{{ form.category.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    {% if task %}
+                    <!-- Completed Status (only show when editing) -->
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" name="is_completed" class="form-check-input" id="id_is_completed"
+                               {% if form.is_completed.value %}checked{% endif %}>
+                        <label class="form-check-label" for="id_is_completed">
+                            Mark as completed
+                        </label>
+                    </div>
+                    {% endif %}
+
+                    <!-- Buttons -->
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-check-circle"></i> 
+                            {% if task %}Update Task{% else %}Create Task{% endif %}
+                        </button>
+                        <a href="{% url 'task-list' %}" class="btn btn-secondary">
+                            <i class="bi bi-x-circle"></i> Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
