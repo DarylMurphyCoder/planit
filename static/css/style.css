@@ -34,3 +34,20 @@ main.container {
 textarea {
   background-color: #ffffff;
 }
+
+/* Footer styling */
+.site-footer {
+  background-color: #274777;
+  color: #ffffff;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.site-footer .footer-link {
+  color: #ffda79;
+  font-size: 1.2rem;
+}
+
+.site-footer .footer-link:hover,
+.site-footer .footer-link:focus {
+  color: #ffe8a1;
+}
