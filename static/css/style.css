@@ -10,9 +10,9 @@
   border-radius: 0 !important;
 }
 
-/* App background: soft blue gradient that stays readable */
+/* App background: baby blue */
 body {
-  background: linear-gradient(135deg, #f6f9fc 0%, #eef3ff 50%, #f8fbff 100%);
+  background-color: #bde0fe;
 }
 
 /* Keep content areas crisp on the gradient */
