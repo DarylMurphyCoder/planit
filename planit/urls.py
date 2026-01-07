@@ -16,6 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.views.generic import TemplateView
 from django.contrib.auth import views as auth_views
 from accounts.views import signup
 from tasks.views import (
@@ -30,6 +31,13 @@ urlpatterns = [
     path('tasks/<int:pk>/edit/', task_update, name='task-update'),
     path('tasks/<int:pk>/delete/', task_delete, name='task-delete'),
     path('tasks/<int:pk>/toggle/', task_toggle, name='task-toggle'),
+    
+    # Static pages
+    path(
+        'about/',
+        TemplateView.as_view(template_name='about.html'),
+        name='about'
+    ),
     
     # Authentication URLs
     path(

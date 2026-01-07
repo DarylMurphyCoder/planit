@@ -1,174 +1,61 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}PlanIt! - Todo List App{% endblock %}</title>
-    
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}PlanIt!{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
     <style>
-        :root {
-            --primary-color: #4A90E2;
-            --secondary-color: #6C757D;
-            --success-color: #28A745;
-            --danger-color: #DC3545;
-        }
-        
-        body {
-            min-height: 100vh;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-
-        .skip-link {
-            position: absolute;
-            top: -40px;
-            left: 0;
-            background: #000;
-            color: #fff;
-            padding: 8px 12px;
-            z-index: 1000;
-        }
-
-        .skip-link:focus {
-            top: 10px;
-        }
-
-        :focus-visible {
-            outline: 3px solid #ffda79;
-            outline-offset: 2px;
-        }
-        
-        .navbar {
-            background: rgba(255, 255, 255, 0.95) !important;
-            box-shadow: 0 2px 4px rgba(0,0,0,.1);
-        }
-        
-        .main-content {
-            margin-top: 2rem;
-            margin-bottom: 2rem;
-        }
-        
-        .card {
-            border: none;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,.1);
-        }
-        
-        .task-item {
-            transition: transform 0.2s;
-        }
-        
-        .task-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,.15);
-        }
-        
-        .completed {
-            opacity: 0.6;
-            text-decoration: line-through;
-        }
-        
-        .priority-high {
-            border-left: 4px solid #DC3545;
-        }
-        
-        .priority-medium {
-            border-left: 4px solid #FFC107;
-        }
-        
-        .priority-low {
-            border-left: 4px solid #28A745;
-        }
+      .skip-link { position: absolute; left: -9999px; top: -9999px; }
+      .skip-link:focus { left: 16px; top: 16px; background: #fff; padding: 8px 12px; border: 2px solid #0d6efd; z-index: 1000; }
+      :focus-visible { outline: 3px solid #ffda79; outline-offset: 2px; }
+      .completed { text-decoration: line-through; color: #6c757d; }
     </style>
-    
-    {% block extra_css %}{% endblock %}
-</head>
-<body>
-    <a href="#main-content" class="skip-link">Skip to main content</a>
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-light" aria-label="Main navigation">
-        <div class="container">
-            <a class="navbar-brand fw-bold" href="{% url 'task-list' %}">
-                <i class="bi bi-check2-square" aria-hidden="true"></i> PlanIt!
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    {% if user.is_authenticated %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'task-list' %}">
-                                <i class="bi bi-list-task"></i> My Tasks
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'task-create' %}">
-                                <i class="bi bi-plus-circle"></i> New Task
-                            </a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
-                                <i class="bi bi-person-circle"></i> {{ user.username }}
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-end">
-                                <li><a class="dropdown-item" href="/admin/">Admin Panel</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li>
-                                    <form method="post" action="{% url 'logout' %}" style="display: inline;">
-                                        {% csrf_token %}
-                                        <button type="submit" class="dropdown-item" style="border: none; background: none; cursor: pointer; width: 100%; text-align: left;">
-                                            Logout
-                                        </button>
-                                    </form>
-                                </li>
-                            </ul>
-                        </li>
-                    {% else %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'login' %}">Login</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'signup' %}">Sign Up</a>
-                        </li>
-                    {% endif %}
-                </ul>
-            </div>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" aria-label="Main navigation">
+      <div class="container">
+        <a class="navbar-brand" href="{%- url 'task-list' -%}">PlanIt!</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item"><a class="nav-link" href="{%- url 'task-list' -%}">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="{%- url 'about' -%}">About</a></li>
+          </ul>
+          <ul class="navbar-nav">
+            {% if user.is_authenticated %}
+              <li class="nav-item"><span class="nav-link">Hi, {{ user.username }}</span></li>
+              <li class="nav-item">
+                <form method="post" action="{%- url 'logout' -%}" class="d-inline">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-outline-secondary btn-sm">Logout</button>
+                </form>
+              </li>
+            {% else %}
+              <li class="nav-item"><a class="nav-link" href="{%- url 'login' -%}">Login</a></li>
+              <li class="nav-item"><a class="nav-link" href="{%- url 'signup' -%}">Sign up</a></li>
+            {% endif %}
+          </ul>
         </div>
+      </div>
     </nav>
 
-    <!-- Messages -->
-    {% if messages %}
-        <div class="container mt-3" role="status" aria-live="polite">
-            {% for message in messages %}
-                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-                    {{ message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close alert"></button>
-                </div>
-            {% endfor %}
+    <main id="main-content" role="main" class="container py-4">
+      {% if messages %}
+        <div aria-live="polite" role="status">
+          {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}" role="alert">{{ message }}</div>
+          {% endfor %}
         </div>
-    {% endif %}
-
-    <!-- Main Content -->
-    <main id="main-content" class="container main-content" role="main">
-        {% block content %}{% endblock %}
+      {% endif %}
+      {% block content %}{% endblock %}
     </main>
 
-    <!-- Footer -->
-    <footer class="mt-auto py-3 text-center text-white">
-        <div class="container">
-            <p class="mb-0">&copy; 2026 PlanIt! All rights reserved.</p>
-        </div>
-    </footer>
-
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
-    {% block extra_js %}{% endblock %}
-</body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
 </html>

@@ -14,7 +14,8 @@ def signup(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            messages.success(request, f'Welcome, {user.username}! Your account has been created.')
+            msg = f'Welcome, {user.username}! Your account has been created.'
+            messages.success(request, msg)
             return redirect('task-list')
     else:
         form = UserCreationForm()
