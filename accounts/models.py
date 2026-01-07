@@ -4,7 +4,11 @@ from django.contrib.auth.models import User
 
 class UserProfile(models.Model):
     """Extended user profile model"""
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        related_name='profile'
+    )
     email_notifications_enabled = models.BooleanField(default=True)
     theme_preference = models.CharField(
         max_length=10,

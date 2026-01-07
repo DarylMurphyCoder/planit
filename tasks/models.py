@@ -1,11 +1,14 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 class Category(models.Model):
     """Model for task categories"""
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='categories')
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='categories'
+    )
     name = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -26,7 +29,11 @@ class Task(models.Model):
         ('high', 'High'),
     ]
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='tasks')
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='tasks'
+    )
     title = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
     is_completed = models.BooleanField(default=False)
@@ -55,7 +62,11 @@ class Task(models.Model):
 
 class TaskNote(models.Model):
     """Model for detailed notes on tasks"""
-    task = models.ForeignKey(Task, on_delete=models.CASCADE, related_name='notes')
+    task = models.ForeignKey(
+        Task,
+        on_delete=models.CASCADE,
+        related_name='notes'
+    )
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -76,7 +87,11 @@ class RecurringTask(models.Model):
         ('yearly', 'Yearly'),
     ]
 
-    task = models.OneToOneField(Task, on_delete=models.CASCADE, related_name='recurrence')
+    task = models.OneToOneField(
+        Task,
+        on_delete=models.CASCADE,
+        related_name='recurrence'
+    )
     frequency = models.CharField(max_length=10, choices=FREQUENCY_CHOICES)
     end_date = models.DateField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -93,7 +108,11 @@ class SharedTaskList(models.Model):
         ('editable', 'Editable'),
     ]
 
-    task = models.ForeignKey(Task, on_delete=models.CASCADE, related_name='shared_with')
+    task = models.ForeignKey(
+        Task,
+        on_delete=models.CASCADE,
+        related_name='shared_with'
+    )
     shared_with_user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
@@ -110,4 +129,7 @@ class SharedTaskList(models.Model):
         unique_together = ('task', 'shared_with_user')
 
     def __str__(self):
-        return f"{self.task.title} shared with {self.shared_with_user.username}"
+        return (
+            f"{self.task.title} shared with "
+            f"{self.shared_with_user.username}"
+        )
