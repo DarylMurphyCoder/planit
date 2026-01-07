@@ -10,10 +10,12 @@
   border-radius: 0 !important;
 }
 
-/* App background: blue */
+/* App background: blue + page layout */
 body {
   background-color: #427fb5;
-  padding-bottom: 80px; /* space for fixed footer */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Keep navbar blue; make content boxes white */
@@ -27,6 +29,7 @@ body {
 
 main.container {
   background-color: #427fb5;
+  flex: 1 0 auto;
 }
 
 /* Keep form fields white for readability */
@@ -41,11 +44,7 @@ textarea {
   background-color: #274777;
   color: #ffffff;
   border-top: 1px solid rgba(255, 255, 255, 0.2);
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 1000;
+  margin-top: auto;
 }
 
 .site-footer .footer-link {

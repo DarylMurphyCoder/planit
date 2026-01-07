@@ -103,7 +103,7 @@
                 <div class="card mb-3 task-item priority-{{ task.priority }}">
                     <div class="card-body">
                         <div class="row align-items-center">
-                            <div class="col-md-1">
+                            <div class="col-12 col-md-1 mb-2 mb-md-0">
                                 <form method="post" action="{% url 'task-toggle' task.id %}" class="d-inline">
                                     {% csrf_token %}
                                     <input type="checkbox" class="form-check-input" {% if task.is_completed %}checked{% endif %}
@@ -111,7 +111,7 @@
                                            aria-label="Toggle completion for {{ task.title }}">
                                 </form>
                             </div>
-                            <div class="col-md-7">
+                            <div class="col-12 col-md-7">
                                 <h5 class="mb-1 {% if task.is_completed %}completed{% endif %}">
                                     {{ task.title }}
                                 </h5>
@@ -134,7 +134,7 @@
                                     {% endif %}
                                 </div>
                             </div>
-                            <div class="col-md-4 text-end">
+                            <div class="col-12 col-md-4 text-md-end mt-3 mt-md-0">
                                 <a href="{% url 'task-detail' task.id %}" class="btn btn-sm btn-outline-primary">
                                     <i class="bi bi-eye"></i> View
                                 </a>
