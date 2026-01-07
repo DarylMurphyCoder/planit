@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.db import models
 from .models import Task, Category
 
 
@@ -156,3 +157,93 @@ def task_toggle(request, pk):
     
     # Redirect back to the referring page or task list
     return redirect(request.META.get('HTTP_REFERER', 'task-list'))
+
+
+# Category management views
+@login_required
+def category_list(request):
+    """Display list of user's categories with task counts"""
+    categories = Category.objects.filter(user=request.user).annotate(
+        task_count=models.Count('tasks')
+    )
+    context = {'categories': categories}
+    return render(request, 'tasks/category_list.html', context)
+
+
+@login_required
+def category_create(request):
+    """Create a new category"""
+    if request.method == 'POST':
+        name = request.POST.get('name', '').strip()
+        
+        if not name:
+            messages.error(request, 'Category name cannot be empty.')
+            return redirect('category-create')
+        
+        if Category.objects.filter(user=request.user, name=name).exists():
+            messages.warning(request, f'Category "{name}" already exists.')
+            return redirect('category-list')
+        
+        Category.objects.create(user=request.user, name=name)
+        messages.success(request, f'Category "{name}" created successfully!')
+        return redirect('category-list')
+    
+    return render(request, 'tasks/category_form.html', {
+        'form_title': 'Create New Category'
+    })
+
+
+@login_required
+def category_update(request, pk):
+    """Update an existing category"""
+    category = get_object_or_404(Category, pk=pk, user=request.user)
+    
+    if request.method == 'POST':
+        name = request.POST.get('name', '').strip()
+        
+        if not name:
+            messages.error(request, 'Category name cannot be empty.')
+            return redirect('category-update', pk=pk)
+        
+        # Check if another category has this name
+        if Category.objects.filter(
+            user=request.user, name=name
+        ).exclude(pk=pk).exists():
+            messages.warning(request, f'Category "{name}" already exists.')
+            return redirect('category-update', pk=pk)
+        
+        category.name = name
+        category.save()
+        messages.success(request, f'Category updated to "{name}"!')
+        return redirect('category-list')
+    
+    context = {
+        'category': category,
+        'form_title': 'Edit Category',
+        'form': {'name': {'value': category.name}}
+    }
+    return render(request, 'tasks/category_form.html', context)
+
+
+@login_required
+def category_delete(request, pk):
+    """Delete a category"""
+    category = get_object_or_404(Category, pk=pk, user=request.user)
+    
+    if request.method == 'POST':
+        category_name = category.name
+        # Move tasks without category before deleting
+        Task.objects.filter(category=category).update(category=None)
+        category.delete()
+        messages.success(
+            request,
+            f'Category "{category_name}" deleted. Associated tasks '
+            'have been unassigned.'
+        )
+        return redirect('category-list')
+    
+    context = {
+        'category': category,
+        'task_count': category.tasks.count()
+    }
+    return render(request, 'tasks/category_confirm_delete.html', context)

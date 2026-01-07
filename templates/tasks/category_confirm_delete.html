@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}Delete Category - PlanIt!{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card border-danger">
+                <div class="card-body p-4">
+                    <div class="text-center mb-4">
+                        <i class="bi bi-exclamation-circle text-danger" style="font-size: 3rem;"></i>
+                    </div>
+                    
+                    <h2 class="mb-3 text-center">Delete Category</h2>
+                    
+                    <p class="mb-3">
+                        Are you sure you want to delete the category <strong>"{{ category.name }}"</strong>?
+                    </p>
+                    
+                    {% if task_count > 0 %}
+                        <div class="alert alert-info" role="alert">
+                            <i class="bi bi-info-circle"></i>
+                            This category has <strong>{{ task_count }} task{{ task_count|pluralize }}</strong> assigned to it.
+                            These tasks will be unassigned but not deleted.
+                        </div>
+                    {% endif %}
+                    
+                    <form method="post" class="d-grid gap-2">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">
+                            <i class="bi bi-trash"></i> Yes, Delete Category
+                        </button>
+                        <a href="{% url 'category-list' %}" class="btn btn-outline-secondary">
+                            Cancel
+                        </a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

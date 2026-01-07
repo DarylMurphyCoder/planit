@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ form_title }} - PlanIt!{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body p-4">
+                    <h2 class="mb-4">{{ form_title }}</h2>
+                    
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        <div class="mb-3">
+                            <label for="name" class="form-label fw-bold">Category Name</label>
+                            <input 
+                                type="text" 
+                                class="form-control" 
+                                id="name" 
+                                name="name" 
+                                placeholder="e.g., Work, Personal, Home"
+                                value="{{ form.name.value|default:'' }}"
+                                required
+                                maxlength="100"
+                            >
+                            <small class="text-muted">Unique name for this category</small>
+                        </div>
+                        
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-check-circle"></i> Save Category
+                            </button>
+                            <a href="{% url 'category-list' %}" class="btn btn-outline-secondary">
+                                Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
