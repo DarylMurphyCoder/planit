@@ -1,0 +1,11 @@
+/* Remove rounded corners from all form elements */
+.form-control,
+.form-select,
+.btn {
+  border-radius: 0 !important;
+}
+
+/* Card elements */
+.card {
+  border-radius: 0 !important;
+}
