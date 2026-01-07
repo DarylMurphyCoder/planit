@@ -159,4 +159,13 @@
         {% endif %}
     </div>
 </div>
+
+<a
+    href="{% url 'task-create' %}"
+    class="btn btn-primary rounded-circle shadow position-fixed"
+    style="bottom: 24px; right: 24px; width: 56px; height: 56px; display: flex; align-items: center; justify-content: center;"
+    aria-label="Create new task"
+>
+    <i class="bi bi-plus-lg" aria-hidden="true"></i>
+</a>
 {% endblock %}
