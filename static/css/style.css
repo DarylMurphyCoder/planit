@@ -10,14 +10,27 @@
   border-radius: 0 !important;
 }
 
-/* App background: baby blue */
+/* App background: blue */
 body {
-  background-color: #bde0fe;
+  background-color: #427fb5;
 }
 
-/* Keep content areas crisp on the gradient */
-.card,
-.navbar,
+/* Keep navbar blue; make content boxes white */
+.navbar {
+  background-color: #427fb5;
+}
+
+.card {
+  background-color: #ffffff;
+}
+
 main.container {
+  background-color: #427fb5;
+}
+
+/* Keep form fields white for readability */
+.form-control,
+.form-select,
+textarea {
   background-color: #ffffff;
 }
