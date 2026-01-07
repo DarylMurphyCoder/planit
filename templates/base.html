@@ -18,27 +18,27 @@
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light" aria-label="Main navigation">
       <div class="container">
-        <a class="navbar-brand" href="{%- url 'task-list' -%}">PlanIt!</a>
+        <a class="navbar-brand" href="{% url 'task-list' %}">PlanIt!</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav me-auto">
-            <li class="nav-item"><a class="nav-link" href="{%- url 'task-list' -%}">Home</a></li>
-            <li class="nav-item"><a class="nav-link" href="{%- url 'about' -%}">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'task-list' %}">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About</a></li>
           </ul>
           <ul class="navbar-nav">
             {% if user.is_authenticated %}
               <li class="nav-item"><span class="nav-link">Hi, {{ user.username }}</span></li>
               <li class="nav-item">
-                <form method="post" action="{%- url 'logout' -%}" class="d-inline">
+                <form method="post" action="{% url 'logout' %}" class="d-inline">
                   {% csrf_token %}
                   <button type="submit" class="btn btn-outline-secondary btn-sm">Logout</button>
                 </form>
               </li>
             {% else %}
-              <li class="nav-item"><a class="nav-link" href="{%- url 'login' -%}">Login</a></li>
-              <li class="nav-item"><a class="nav-link" href="{%- url 'signup' -%}">Sign up</a></li>
+              <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Login</a></li>
+              <li class="nav-item"><a class="nav-link" href="{% url 'signup' %}">Sign up</a></li>
             {% endif %}
           </ul>
         </div>
