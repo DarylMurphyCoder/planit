@@ -13,6 +13,7 @@
 /* App background: blue */
 body {
   background-color: #427fb5;
+  padding-bottom: 80px; /* space for fixed footer */
 }
 
 /* Keep navbar blue; make content boxes white */
@@ -40,6 +41,11 @@ textarea {
   background-color: #274777;
   color: #ffffff;
   border-top: 1px solid rgba(255, 255, 255, 0.2);
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
 }
 
 .site-footer .footer-link {
@@ -50,4 +56,19 @@ textarea {
 .site-footer .footer-link:hover,
 .site-footer .footer-link:focus {
   color: #ffe8a1;
+}
+
+/* Desktop layout: center social links and increase spacing */
+@media (min-width: 992px) {
+  .site-footer .social-links {
+    justify-content: center;
+    gap: 3rem;
+    width: 100%;
+  }
+}
+
+/* Base layout: center social links and add more spacing */
+.site-footer .social-links {
+  justify-content: center;
+  gap: 1.75rem;
 }
