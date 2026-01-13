@@ -71,3 +71,28 @@ textarea {
   justify-content: center;
   gap: 1.75rem;
 }
+
+/* Card header styling - match footer color */
+.card-header {
+  background-color: #274777 !important;
+  color: #ffffff !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.card-header h5 {
+  color: #ffffff;
+  margin-bottom: 0;
+}
+
+/* Apply Filters button - match footer color */
+.btn-primary {
+  background-color: #274777;
+  border-color: #274777;
+}
+
+.btn-primary:hover,
+.btn-primary:active,
+.btn-primary:focus {
+  background-color: #1a2f4a;
+  border-color: #1a2f4a;
+}
