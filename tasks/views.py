@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db import models
+from django.db.models import Case, When
 from .models import Task, Category
 
 
@@ -42,8 +43,22 @@ def task_list(request):
         user=request.user, is_completed=True
     ).count()
     
+    # Order tasks by priority (high > medium > low) and then by due_date
+    priority_order = Case(
+        When(priority='high', then=1),
+        When(priority='medium', then=2),
+        When(priority='low', then=3),
+        default=2,
+        output_field=models.IntegerField(),
+    )
+    
+    tasks = tasks.annotate(priority_order=priority_order).order_by(
+        'priority_order',
+        'due_date'
+    )
+    
     context = {
-        'tasks': tasks.order_by('-created_at'),
+        'tasks': tasks,
         'categories': categories,
         'status': status_filter,
         'priority': priority_filter,
