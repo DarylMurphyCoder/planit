@@ -100,7 +100,7 @@
         <!-- Tasks List -->
         {% if tasks %}
             {% for task in tasks %}
-                <div class="card mb-3 task-item priority-{{ task.priority }}">
+                <div class="card mb-3 task-item priority-{{ task.priority }} priority-border-{{ task.priority }}">
                     <div class="card-body">
                         <div class="row align-items-center">
                             <div class="col-12 col-md-1 mb-2 mb-md-0">
