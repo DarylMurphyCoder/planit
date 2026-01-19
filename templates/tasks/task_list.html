@@ -6,7 +6,7 @@
 <!-- Homepage hero header -->
 <div class="card mb-4 hero-card">
     <div class="card-body text-center py-4">
-        <h1 class="display-6 mb-2"><span class="hero-emoji"></span> Welcome to PlanIt!</h1>
+        <h1 class="display-6 mb-2"><span class="hero-emoji">📓</span> Welcome to PlanIt!</h1>
         <p class="text-muted mb-0">Plan smarter, get things done, and enjoy the wins.</p>
     </div>
 </div>
@@ -15,7 +15,7 @@
         <!-- Filters Sidebar -->
         <div class="card">
             <div class="card-header bg-primary text-white">
-                <h5 class="mb-0"><i class="bi bi-funnel"></i> Filters</h5>
+                <h2 class="mb-0 h5"><i class="bi bi-funnel"></i> Filters</h2>
             </div>
             <div class="card-body">
                 <form method="get" action="{% url 'task-list' %}">
@@ -38,8 +38,8 @@
 
                     <!-- Priority Filter -->
                     <div class="mb-3">
-                        <label class="form-label fw-bold">Priority</label>
-                        <select class="form-select" name="priority">
+                        <label for="id_filter_priority" class="form-label fw-bold">Priority</label>
+                        <select class="form-select" name="priority" id="id_filter_priority" aria-label="Filter by priority">
                             <option value="">All Priorities</option>
                             <option value="high" {% if priority == 'high' %}selected{% endif %}>High</option>
                             <option value="medium" {% if priority == 'medium' %}selected{% endif %}>Medium</option>
@@ -49,8 +49,8 @@
 
                     <!-- Category Filter -->
                     <div class="mb-3">
-                        <label class="form-label fw-bold">Category</label>
-                        <select class="form-select" name="category">
+                        <label for="id_filter_category" class="form-label fw-bold">Category</label>
+                        <select class="form-select" name="category" id="id_filter_category" aria-label="Filter by category">
                             <option value="">All Categories</option>
                             {% for cat in categories %}
                                 <option value="{{ cat.id }}" {% if category == cat.id|stringformat:"s" %}selected{% endif %}>
@@ -69,7 +69,7 @@
         <!-- Stats Card -->
         <div class="card mt-3">
             <div class="card-body">
-                <h6 class="card-title">Statistics</h6>
+                <h2 class="card-title h6">Statistics</h2>
                 <p class="mb-1"><strong>Total:</strong> {{ total_tasks }}</p>
                 <p class="mb-1"><strong>Pending:</strong> {{ pending_tasks }}</p>
                 <p class="mb-0"><strong>Completed:</strong> {{ completed_tasks }}</p>
@@ -79,11 +79,11 @@
 
     <div class="col-lg-9">
         <!-- Header with Search -->
-        <div class="card mb-4 hero-card">
+        <div class="card mb-4">
             <div class="card-body">
                 <div class="row align-items-center">
                     <div class="col-md-6">
-                        <h3 class="mb-0"><i class="bi bi-list-check"></i> My Tasks</h3>
+                        <h2 class="mb-0 h3"><i class="bi bi-list-check"></i> My Tasks</h2>
                     </div>
                     <div class="col-md-6">
                         <form method="get" action="{% url 'task-list' %}" class="d-flex" role="search" aria-label="Search tasks">
@@ -112,9 +112,9 @@
                                 </form>
                             </div>
                             <div class="col-12 col-md-7">
-                                <h5 class="mb-1 {% if task.is_completed %}completed{% endif %}">
+                                <h3 class="mb-1 h5 {% if task.is_completed %}completed{% endif %}">
                                     {{ task.title }}
-                                </h5>
+                                </h3>
                                 {% if task.description %}
                                     <p class="text-muted mb-1 {% if task.is_completed %}completed{% endif %}">
                                         {{ task.description|truncatewords:15 }}
@@ -156,7 +156,7 @@
             <div class="card">
                 <div class="card-body text-center py-5">
                     <i class="bi bi-inbox" style="font-size: 4rem; color: #ccc;"></i>
-                    <h4 class="mt-3">No tasks found</h4>
+                    <h3 class="mt-3 h4">No tasks found</h3>
                     <p class="text-muted">Start by creating your first task!</p>
                     <a href="{% url 'task-create' %}" class="btn btn-primary">
                         <i class="bi bi-plus-circle"></i> Create Task

@@ -1,16 +1,16 @@
-/* Smooth, cohesive color palette */
+/* Smooth, cohesive color palette with WCAG AA compliant contrast */
 :root {
-  --primary-blue: #5b9bd5;
-  --primary-dark: #3d6fa0;
+  --primary-blue: #4a88c7;
+  --primary-dark: #2d5a8a;
   --primary-light: #e8f1f8;
-  --accent-soft: #7fcdcd;
-  --text-dark: #2c3e50;
-  --text-muted: #6c757d;
-  --success-soft: #6ab187;
-  --warning-soft: #f4b942;
-  --danger-soft: #e07a7a;
+  --accent-soft: #4db8b8;
+  --text-dark: #212529;
+  --text-muted: #495057;
+  --success-soft: #4f9970;
+  --warning-soft: #d9a429;
+  --danger-soft: #c55555;
   --white: #ffffff;
-  --border-light: #e0e6ed;
+  --border-light: #dee2e6;
 }
 
 /* Softer form elements with subtle rounded corners */
@@ -42,9 +42,9 @@ body {
   color: var(--text-dark);
 }
 
-/* Navbar with softer blue */
+/* Navbar with darker blue for better contrast */
 .navbar {
-  background-color: var(--primary-blue) !important;
+  background-color: var(--primary-dark) !important;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -55,7 +55,7 @@ body {
 }
 
 .nav-link {
-  color: rgba(255, 255, 255, 0.9) !important;
+  color: rgba(255, 255, 255, 0.95) !important;
   transition: color 0.2s ease;
 }
 
@@ -63,9 +63,9 @@ body {
   color: var(--white) !important;
 }
 
-/* Hero card styling */
+/* Hero card styling with better contrast */
 .hero-card {
-  background: linear-gradient(135deg, var(--primary-blue) 0%, var(--accent-soft) 100%);
+  background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-blue) 100%);
   color: var(--white);
   border: none;
 }
@@ -73,6 +73,10 @@ body {
 .hero-card h1 {
   color: var(--white);
   font-weight: 600;
+}
+
+.hero-card .text-muted {
+  color: rgba(255, 255, 255, 0.9) !important;
 }
 
 .hero-emoji {
@@ -100,16 +104,17 @@ main.container {
 .form-select,
 textarea {
   background-color: var(--white);
+  color: var(--text-dark);
 }
 
 .form-control:focus,
 .form-select:focus,
 textarea:focus {
   border-color: var(--primary-blue);
-  box-shadow: 0 0 0 0.2rem rgba(91, 155, 213, 0.25);
+  box-shadow: 0 0 0 0.2rem rgba(74, 136, 199, 0.25);
 }
 
-/* Footer styling */
+/* Footer styling with better contrast */
 .site-footer {
   background-color: var(--primary-dark);
   color: var(--white);
@@ -119,7 +124,7 @@ textarea:focus {
 }
 
 .site-footer .footer-link {
-  color: var(--accent-soft);
+  color: #8dd4d4;
   font-size: 1.2rem;
   transition: color 0.2s ease;
 }
@@ -144,7 +149,7 @@ textarea:focus {
   gap: 1.75rem;
 }
 
-/* Card header styling - softer palette */
+/* Card header styling - better contrast */
 .card-header {
   background-color: var(--primary-light) !important;
   color: var(--text-dark) !important;
@@ -152,15 +157,17 @@ textarea:focus {
   font-weight: 600;
 }
 
+.card-header h2,
 .card-header h5 {
   color: var(--text-dark);
   margin-bottom: 0;
 }
 
-/* Buttons with softer styling */
+/* Buttons with better contrast */
 .btn-primary {
   background-color: var(--primary-blue);
   border-color: var(--primary-blue);
+  color: var(--white);
   transition: all 0.2s ease;
 }
 
@@ -169,6 +176,7 @@ textarea:focus {
 .btn-primary:focus {
   background-color: var(--primary-dark);
   border-color: var(--primary-dark);
+  color: var(--white);
   transform: translateY(-1px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
@@ -181,9 +189,43 @@ textarea:focus {
 .btn-outline-primary:hover {
   background-color: var(--primary-blue);
   border-color: var(--primary-blue);
+  color: var(--white);
 }
 
-/* Priority-based left border styling with softer colors */
+.btn-outline-secondary {
+  color: var(--text-dark);
+  border-color: var(--border-light);
+}
+
+.btn-outline-secondary:hover {
+  background-color: var(--text-muted);
+  border-color: var(--text-muted);
+  color: var(--white);
+}
+
+.btn-outline-warning {
+  color: #856404;
+  border-color: #ffc107;
+}
+
+.btn-outline-warning:hover {
+  background-color: #ffc107;
+  border-color: #ffc107;
+  color: #000;
+}
+
+.btn-outline-danger {
+  color: #c55555;
+  border-color: #c55555;
+}
+
+.btn-outline-danger:hover {
+  background-color: #c55555;
+  border-color: #c55555;
+  color: var(--white);
+}
+
+/* Priority-based left border styling with WCAG compliant colors */
 .priority-border-high {
   border-left: 4px solid var(--danger-soft);
 }
@@ -205,18 +247,30 @@ textarea:focus {
   transform: translateX(4px);
 }
 
-/* Badge styling with softer colors */
+/* Badge styling with better contrast */
 .badge.bg-high {
   background-color: var(--danger-soft) !important;
+  color: var(--white) !important;
 }
 
 .badge.bg-medium {
   background-color: var(--warning-soft) !important;
-  color: var(--text-dark) !important;
+  color: #000 !important;
 }
 
 .badge.bg-low {
   background-color: var(--success-soft) !important;
+  color: var(--white) !important;
+}
+
+.badge.bg-info {
+  background-color: #0a7ea4 !important;
+  color: var(--white) !important;
+}
+
+.badge.bg-secondary {
+  background-color: var(--text-muted) !important;
+  color: var(--white) !important;
 }
 
 /* Floating action button styling */
@@ -228,4 +282,15 @@ textarea:focus {
 .btn.rounded-pill:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Text muted with better contrast */
+.text-muted {
+  color: var(--text-muted) !important;
+}
+
+/* Completed task styling */
+.completed {
+  text-decoration: line-through;
+  color: var(--text-muted) !important;
 }
