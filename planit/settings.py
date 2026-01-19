@@ -51,7 +51,7 @@ INSTALLED_APPS = [
     'cloudinary',
     'tasks',
     'accounts',
-    'notifications',
+    
 ]
 
 MIDDLEWARE = [
@@ -179,3 +179,4 @@ CSRF_COOKIE_SECURE = config(
 
 # WhiteNoise configuration
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
