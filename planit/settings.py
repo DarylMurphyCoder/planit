@@ -179,4 +179,3 @@ CSRF_COOKIE_SECURE = config(
 
 # WhiteNoise configuration
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
