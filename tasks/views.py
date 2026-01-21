@@ -12,28 +12,28 @@ def task_list(request):
     """Display list of tasks with filtering"""
     tasks = Task.objects.filter(user=request.user)
     categories = Category.objects.filter(user=request.user)
-    
+
     # Get filter parameters
     status_filter = request.GET.get('status', 'all')
     priority_filter = request.GET.get('priority', '')
     category_filter = request.GET.get('category', '')
     search_query = request.GET.get('search', '')
-    
+
     # Apply filters
     if status_filter == 'completed':
         tasks = tasks.filter(is_completed=True)
     elif status_filter == 'pending':
         tasks = tasks.filter(is_completed=False)
-    
+
     if priority_filter:
         tasks = tasks.filter(priority=priority_filter)
-    
+
     if category_filter:
         tasks = tasks.filter(category_id=category_filter)
-    
+
     if search_query:
         tasks = tasks.filter(title__icontains=search_query)
-    
+
     # Calculate stats
     total_tasks = Task.objects.filter(user=request.user).count()
     pending_tasks = Task.objects.filter(
@@ -42,7 +42,7 @@ def task_list(request):
     completed_tasks = Task.objects.filter(
         user=request.user, is_completed=True
     ).count()
-    
+
     # Order tasks by priority (high > medium > low) and then by due_date
     priority_order = Case(
         When(priority='high', then=1),
@@ -51,12 +51,12 @@ def task_list(request):
         default=2,
         output_field=models.IntegerField(),
     )
-    
+
     tasks = tasks.annotate(priority_order=priority_order).order_by(
         'priority_order',
         'due_date'
     )
-    
+
     context = {
         'tasks': tasks,
         'categories': categories,
@@ -82,14 +82,14 @@ def task_detail(request, pk):
 def task_create(request):
     """Create a new task"""
     categories = Category.objects.filter(user=request.user)
-    
+
     if request.method == 'POST':
         title = request.POST.get('title')
         description = request.POST.get('description')
         priority = request.POST.get('priority', 'medium')
         due_date = request.POST.get('due_date') or None
         category_id = request.POST.get('category') or None
-        
+
         task = Task.objects.create(
             user=request.user,
             title=title,
@@ -98,10 +98,10 @@ def task_create(request):
             due_date=due_date,
             category_id=category_id
         )
-        
+
         messages.success(request, f'Task "{task.title}" created successfully!')
         return redirect('task-list')
-    
+
     context = {
         'categories': categories,
         'form_title': 'Create New Task',
@@ -115,7 +115,7 @@ def task_update(request, pk):
     """Update an existing task"""
     task = get_object_or_404(Task, pk=pk, user=request.user)
     categories = Category.objects.filter(user=request.user)
-    
+
     if request.method == 'POST':
         task.title = request.POST.get('title')
         task.description = request.POST.get('description')
@@ -124,10 +124,10 @@ def task_update(request, pk):
         task.category_id = request.POST.get('category') or None
         task.is_completed = 'is_completed' in request.POST
         task.save()
-        
+
         messages.success(request, f'Task "{task.title}" updated successfully!')
         return redirect('task-detail', pk=task.pk)
-    
+
     context = {
         'task': task,
         'categories': categories,
@@ -148,13 +148,13 @@ def task_update(request, pk):
 def task_delete(request, pk):
     """Delete a task"""
     task = get_object_or_404(Task, pk=pk, user=request.user)
-    
+
     if request.method == 'POST':
         title = task.title
         task.delete()
         messages.success(request, f'Task "{title}" deleted successfully!')
         return redirect('task-list')
-    
+
     return redirect('task-detail', pk=pk)
 
 
@@ -162,14 +162,14 @@ def task_delete(request, pk):
 def task_toggle(request, pk):
     """Toggle task completion status"""
     task = get_object_or_404(Task, pk=pk, user=request.user)
-    
+
     if request.method == 'POST':
         task.is_completed = not task.is_completed
         task.save()
-        
+
         status_msg = 'completed' if task.is_completed else 'marked as pending'
         messages.success(request, f'Task "{task.title}" {status_msg}!')
-    
+
     # Redirect back to the referring page or task list
     return redirect(request.META.get('HTTP_REFERER', 'task-list'))
 
@@ -190,19 +190,19 @@ def category_create(request):
     """Create a new category"""
     if request.method == 'POST':
         name = request.POST.get('name', '').strip()
-        
+
         if not name:
             messages.error(request, 'Category name cannot be empty.')
             return redirect('category-create')
-        
+
         if Category.objects.filter(user=request.user, name=name).exists():
             messages.warning(request, f'Category "{name}" already exists.')
             return redirect('category-list')
-        
+
         Category.objects.create(user=request.user, name=name)
         messages.success(request, f'Category "{name}" created successfully!')
         return redirect('category-list')
-    
+
     return render(request, 'tasks/category_form.html', {
         'form_title': 'Create New Category'
     })
@@ -212,26 +212,26 @@ def category_create(request):
 def category_update(request, pk):
     """Update an existing category"""
     category = get_object_or_404(Category, pk=pk, user=request.user)
-    
+
     if request.method == 'POST':
         name = request.POST.get('name', '').strip()
-        
+
         if not name:
             messages.error(request, 'Category name cannot be empty.')
             return redirect('category-update', pk=pk)
-        
+
         # Check if another category has this name
         if Category.objects.filter(
             user=request.user, name=name
         ).exclude(pk=pk).exists():
             messages.warning(request, f'Category "{name}" already exists.')
             return redirect('category-update', pk=pk)
-        
+
         category.name = name
         category.save()
         messages.success(request, f'Category updated to "{name}"!')
         return redirect('category-list')
-    
+
     context = {
         'category': category,
         'form_title': 'Edit Category',
@@ -244,7 +244,7 @@ def category_update(request, pk):
 def category_delete(request, pk):
     """Delete a category"""
     category = get_object_or_404(Category, pk=pk, user=request.user)
-    
+
     if request.method == 'POST':
         category_name = category.name
         # Move tasks without category before deleting
@@ -256,7 +256,7 @@ def category_delete(request, pk):
             'have been unassigned.'
         )
         return redirect('category-list')
-    
+
     context = {
         'category': category,
         'task_count': category.tasks.count()

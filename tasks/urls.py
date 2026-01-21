@@ -12,7 +12,7 @@ urlpatterns = [
     path('tasks/<int:pk>/edit/', task_update, name='task-update'),
     path('tasks/<int:pk>/delete/', task_delete, name='task-delete'),
     path('tasks/<int:pk>/toggle/', task_toggle, name='task-toggle'),
-    
+
     # Category management URLs
     path('categories/', category_list, name='category-list'),
     path('categories/create/', category_create, name='category-create'),
