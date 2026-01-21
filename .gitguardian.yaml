@@ -1,0 +1,15 @@
+# GitGuardian configuration
+# This file configures GitGuardian to ignore false positives
+
+version: 2
+
+# Ignore test files with test passwords
+paths-ignore:
+  - "**/tests.py"
+  - "**/test_*.py"
+  - "tests/**"
+
+# Ignore specific patterns in test files
+matches-ignore:
+  - name: Test passwords in test files
+    match: testpass123|pass123|ComplexPass123!|otherpass123
