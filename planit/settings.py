@@ -167,15 +167,25 @@ LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = 'task-list'
 LOGOUT_REDIRECT_URL = '/login/'
 
-# Security settings for production
-# Temporarily disabled to debug redirect loop
-SECURE_SSL_REDIRECT = False
+# Security settings
+# Default flags come from environment; strengthen automatically in production
 SESSION_COOKIE_SECURE = config(
     'SESSION_COOKIE_SECURE', default=False, cast=bool
 )
 CSRF_COOKIE_SECURE = config(
     'CSRF_COOKIE_SECURE', default=False, cast=bool
 )
+
+# Automatically enable strict security when DEBUG is False
+if not DEBUG:
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_HSTS_SECONDS = 31536000  # 1 year
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+    SECURE_REFERRER_POLICY = 'strict-origin'
+    SECURE_CONTENT_TYPE_NOSNIFF = True
 
 # WhiteNoise configuration
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
